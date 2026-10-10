@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+:root {
+  --theme-bg: #FAFBFD;
+  --theme-ink: #1A2540;
+  --theme-strong: #334155;
+  --theme-muted: #526078;
+  --theme-card: #FFFFFF;
+  --theme-chip: #FFFFFF;
+  --theme-line: rgba(226, 232, 240, 0.8);
+  --theme-ghost-1: #CBD5E1;
+  --theme-ghost-2: rgba(226, 232, 240, 0.5);
+}
+
+/* Dark window: active while scrolling from the process section until the
+   reviews section enters the viewport. Toggled by a ScrollTrigger in App. */
+html.theme-dark {
+  --theme-bg: #0B1322;
+  --theme-ink: #F1F5FA;
+  --theme-strong: #D9DFEA;
+  --theme-muted: #97A3B9;
+  --theme-card: #111C30;
+  --theme-chip: #17243D;
+  --theme-line: rgba(148, 163, 184, 0.16);
+  --theme-ghost-1: #2C3B58;
+  --theme-ghost-2: rgba(44, 59, 88, 0.4);
+}
+
+/* The process section's blueprint grid disappears in the dark window. */
+.blueprint-grid {
+  transition: opacity 0.8s ease;
+}
+
+html.theme-dark .blueprint-grid {
+  opacity: 0;
+}
+
+/* Global guideline backdrop dims to 10% inside the dark window. */
+.guide-lines {
+  transition: opacity 0.8s ease;
+}
+
+html.theme-dark .guide-lines {
+  opacity: 0.1;
+}
+
+/* Smoothly animate every element that consumes a theme variable.
+   Only fires when the theme class flips — zero cost during scroll. */
+[class*="(--theme"] {
+  transition:
+    background-color 0.8s ease,
+    color 0.8s ease,
+    border-color 0.8s ease;
+}
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+  
+  --animate-fade-in: fade-in 0.3s ease-out;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Progressive blur: stacked backdrop-filter layers, each masked to its own
+   vertical band so blur strength genuinely ramps down instead of one blur
+   fading out through a single mask. Strongest blur sits at the very top. */
+.progressive-blur {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 140%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Liquid-glass refraction layer: SVG displacement map + per-channel
+   chromatic aberration (defined in Header.tsx), painted beneath the blur
+   layers so the frost sits on top of the distorted backdrop. */
+.progressive-blur::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: url(#glass-aberration) saturate(1.35);
+  mask-image: linear-gradient(to bottom, black 0%, black 35%, transparent 85%);
+}
+
+.progressive-blur > div {
+  position: absolute;
+  inset: 0;
+}
+
+.progressive-blur > div:nth-child(1) {
+  backdrop-filter: blur(10px);
+  mask-image: linear-gradient(to bottom, black 0%, black 20%, transparent 40%);
+}
+
+.progressive-blur > div:nth-child(2) {
+  backdrop-filter: blur(5px);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 40%, transparent 60%);
+}
+
+.progressive-blur > div:nth-child(3) {
+  backdrop-filter: blur(2.5px);
+  mask-image: linear-gradient(to bottom, transparent 20%, black 40%, black 60%, transparent 80%);
+}
+
+.progressive-blur > div:nth-child(4) {
+  backdrop-filter: blur(1px);
+  mask-image: linear-gradient(to bottom, transparent 40%, black 60%, black 80%, transparent 100%);
+}
+
+/* Bottom-anchored variant: same glassy distortion + aberration, mirrored so
+   the strongest blur sits at the bottom edge (used at the foot of the
+   auto-scrolling hero grid). */
+.progressive-blur-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.progressive-blur-bottom::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: url(#glass-aberration) saturate(1.35);
+  mask-image: linear-gradient(to top, black 0%, black 35%, transparent 85%);
+}
+
+.progressive-blur-bottom > div {
+  position: absolute;
+  inset: 0;
+}
+
+.progressive-blur-bottom > div:nth-child(1) {
+  backdrop-filter: blur(10px);
+  mask-image: linear-gradient(to top, black 0%, black 20%, transparent 40%);
+}
+
+.progressive-blur-bottom > div:nth-child(2) {
+  backdrop-filter: blur(5px);
+  mask-image: linear-gradient(to top, transparent 0%, black 20%, black 40%, transparent 60%);
+}
+
+.progressive-blur-bottom > div:nth-child(3) {
+  backdrop-filter: blur(2.5px);
+  mask-image: linear-gradient(to top, transparent 20%, black 40%, black 60%, transparent 80%);
+}
+
+.progressive-blur-bottom > div:nth-child(4) {
+  backdrop-filter: blur(1px);
+  mask-image: linear-gradient(to top, transparent 40%, black 60%, black 80%, transparent 100%);
+}

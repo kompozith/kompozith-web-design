@@ -1,0 +1,6 @@
+{
+  "name": "Kompozith Page Footer",
+  "description": "An interactive, animated page footer with an organic SVG gradient animated via GSAP and a rotating interactive globe with key location tooltips.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

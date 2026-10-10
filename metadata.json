@@ -1,0 +1,8 @@
+{
+  "name": "Remix: Kompozith Studio",
+  "description": "High-end digital agency hero page with smooth infinite scroll grids, interactive parallax, and custom magnetic buttons.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
